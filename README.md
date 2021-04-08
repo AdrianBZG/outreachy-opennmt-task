@@ -12,7 +12,11 @@ In this task, we will be creating a small Python application that makes use of [
 
 To create the application the applicant needs to read through the [Get started](https://opennmt.net/OpenNMT-py/examples/Translation.html) documentation from OpenNMT and understand the main three components that make up an OpenNMT-based application: data pre-processing, model training and translation. The applicant is encouraged to follow an object-oriented programming approach and a sensible choice of software design patterns [(link)](https://www.oodesign.com/) to develop the application, so that it is as modular and flexible as possible. As an example, it should be easy enough to modify the different parameters that are used throughout the application: data directory, Transformer model parameters (number of layers, number of heads), usage of Beam search or other mechanisms and their related parameters, etc.
 
-The output of this task is an application that 1) can pre-process the selected datasets (either from the EMNLP 2017 or from somewhere else), 2) trains a Transformer translation model, 3) translates a given input sentence into its corresponding target language sentence and 4) evaluates how well the model performs by having a hold-out test dataset.
+The output of this task is an application that 
+1. can pre-process the selected datasets (either from the EMNLP 2017 or from somewhere else), 
+2. trains a Transformer translation model, 
+3. translates a given input sentence into its corresponding target language sentence and 
+4. evaluates how well the model performs by having a hold-out test dataset.
 
 Also, to allow to query the model from external scripts, the model should be deployed as a REST server using the [OpenNMT Server script](https://opennmt.net/OpenNMT-py/options/server.html).
 
