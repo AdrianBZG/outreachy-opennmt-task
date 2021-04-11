@@ -1,0 +1,23 @@
+import yaml
+import json
+
+base_args = (["-config", "toy-ende/config.yaml", "-n_sample", "10000"])
+
+yaml_config = """
+## Where the vocab(s) will be written
+save_data: toy-ende/run/example
+src_vocab: toy-ende/run/example.vocab.src
+tgt_vocab: toy-ende/run/example.vocab.tgt
+# Corpus opts:
+data:
+    corpus:
+        path_src: toy-ende/src-train.txt
+        path_tgt: toy-ende/tgt-train.txt
+        transforms: []
+        weight: 1
+    valid:
+        path_src: toy-ende/src-val.txt
+        path_tgt: toy-ende/tgt-val.txt
+        transforms: []
+"""
+config = yaml.safe_load(yaml_config)
