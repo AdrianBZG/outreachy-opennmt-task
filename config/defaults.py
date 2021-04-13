@@ -1,6 +1,17 @@
 import yaml
 import json
 
+datasets = ['toy-ende', 'rapid2016']
+
+tokenizer = {
+    "mode": "aggressive",
+    "joiner_annotate": True,
+    "preserve_placeholders": True,
+    "case_markup": True,
+    "soft_case_regions": True,
+    "preserve_segmented_tokens": True,
+}
+
 base_args = (["-config", "toy-ende/config.yaml", "-n_sample", "10000"])
 
 yaml_config = """
