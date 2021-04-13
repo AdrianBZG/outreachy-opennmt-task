@@ -5,8 +5,8 @@ from src.utils.preprocessing import DataReader
 
 class ToyENDEReader(DataReader):
     def __init__(self, datapath: str) -> None:
+        super().__init__(datapath)
         self.dataname = 'toy-ende'
-        super().__init__(defaults.datapaths[self.dataname])
 
     def _parse_data(self, trainsplit = None, holdout = None) -> Dataset:
         print(f'Reading {self.dataname} from {self.datapath}')
@@ -22,8 +22,8 @@ class ToyENDEReader(DataReader):
 
 class RapidSETRead(DataReader):
     def __init__(self, datapath: str) -> None:
+        super().__init__(datapath)
         self.dataname = 'rapid2016'
-        super().__init__(defaults.datapaths[self.dataname])
 
     def _parse_data(self, trainsplit = defaults.trainsplit, holdout = defaults.holdout) -> Dataset:
         print(f'Reading {self.dataname} from {self.datapath}')
