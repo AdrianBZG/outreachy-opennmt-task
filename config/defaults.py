@@ -1,7 +1,16 @@
 import yaml
 import json
 
+base_args = (["-config", "toy-ende/config.yaml", "-n_sample", "10000"])
+
 datasets = ['toy-ende', 'rapid2016']
+datapaths = {
+    "toy-ende": "./data/toy-ende",
+    "rapid2016": "./data/rapid2016"
+}
+
+trainsplit = 0.6
+holdout = 0.2
 
 tokenizer = {
     "mode": "aggressive",
@@ -11,8 +20,6 @@ tokenizer = {
     "soft_case_regions": True,
     "preserve_segmented_tokens": True,
 }
-
-base_args = (["-config", "toy-ende/config.yaml", "-n_sample", "10000"])
 
 yaml_config = """
 ## Where the vocab(s) will be written
