@@ -3,7 +3,7 @@ from config import defaults, genconfig
 from src.utils.dataset import Dataset
 from src.pipeline import readers, vocab
 
-def setup_dataset(name:str):
+def setup_dataset(name: str):
     if name not in defaults.datasets:
         raise NotADirectoryError
 
@@ -13,8 +13,7 @@ def setup_dataset(name:str):
     elif name == 'rapid2016':
         datareader = readers.RapidSETReader(defaults.datapaths[name])
     elif name == 'wiki':
-        raise NotImplementedError
-        # datareader = readers.RapidSETReader(defaults.datapaths[name])
+        datareader = readers.WikiTitlesReader(defaults.datapaths[name])
     else:
         raise NotImplementedError
         
@@ -26,5 +25,6 @@ def setup_dataset(name:str):
 
 def setup_vocab(ds: Dataset):
     options, unknown = vocab._build_vocabulary(ds)
+    vocab_fields = vocab._build_fields()
 
-    return
+    return vocab_fields

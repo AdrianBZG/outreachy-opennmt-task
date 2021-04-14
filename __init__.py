@@ -1,18 +1,22 @@
-import sys
-from config import genconfig
+from sys import argv
 from onmt.utils.logging import init_logger
 
 from src.preprocess import setup_dataset, setup_vocab
 
 def main():    
     init_logger()
-
-    print(f"Name of the script      : {sys.argv[0]}")
-    print(f"Arguments of the script : {sys.argv[1:]}")
-
-    ds = setup_dataset('toy-ende')
-    setup_vocab(ds)
+    try:
+        ds = setup_dataset('toy-ende')
+        setup_vocab(ds)
+    except (RuntimeError):
+        return RuntimeError
+    
+    return 0
 
 
 if __name__ == '__main__':  
+    print(f"Name of the script      : {argv[0]}")
+    print(f"Arguments of the script : {argv[1:]}")
+    print()
+
     main()

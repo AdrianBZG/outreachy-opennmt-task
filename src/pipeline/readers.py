@@ -10,11 +10,17 @@ class RapidSETReader(DataReader):
         super().__init__(datapath)
         self.dataname = 'rapid2016'
 
-    def _parse_data(self, trainsplit = defaults.trainsplit, holdout = defaults.holdout) -> Dataset:
+    def _parse_data(self, trainsplit: float = defaults.trainsplit, holdout: float = defaults.holdout) -> Dataset:
         print(f'Reading {self.dataname} from {self.datapath}')
 
         rapid = Dataset(name=self.dataname, path=self.datapath)
         return rapid
+
+
+class WikiTitlesReader(DataReader):
+    def __init__(self, datapath: str) -> None:
+        super().__init__(datapath)
+        raise NotImplementedError
 
 
 class ToyENDEReader(DataReader):
