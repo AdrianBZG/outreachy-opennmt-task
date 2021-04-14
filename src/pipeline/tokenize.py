@@ -1,14 +1,15 @@
 from pyonmttok import Tokenizer, BPELearner
 from config import defaults
+from utils.dataset import Dataset
 
-n_symbols = 40000
 
-"""
-dsfsdf
-"""
-def tokenize_corpus(path):
-    tokenizer_default = Tokenizer(**defaults.tokenizer)
-    learner = BPELearner(tokenizer=tokenizer_default, symbols=n_symbols)
+def tokenize_corpus(dataset: Dataset, outpath: str):
+    """
+    Tokenize the corpus from the prepared dataset.
+    """
+
+    tokenizer_default = Tokenizer(**defaults.tokenizer_args)
+    learner = BPELearner(tokenizer=tokenizer_default, symbols=defaults.tokenizer_nsymbols)
 
     # load training corpus
     learner.ingest_file("wiki.train.raw")

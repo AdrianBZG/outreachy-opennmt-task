@@ -1,7 +1,19 @@
+from os import path
 from typing import List
 from config import defaults
-from src.utils.dataset import Dataset
+from src.utils.dataset import DataItem, Dataset
 from src.utils.preprocessing import DataReader
+
+
+class RapidSETReader(DataReader):
+    def __init__(self, datapath: str) -> None:
+        super().__init__(datapath)
+        self.dataname = 'rapid2016'
+
+    def _parse_data(self, trainsplit = defaults.trainsplit, holdout = defaults.holdout) -> Dataset:
+        print(f'Reading {self.dataname} from {self.datapath}')
+        return Dataset(self.dataname)
+
 
 class ToyENDEReader(DataReader):
     def __init__(self, datapath: str) -> None:
@@ -17,14 +29,18 @@ class ToyENDEReader(DataReader):
         if holdout is not None:
             raise NotImplementedError('This dataset does not support custom holdout.')
 
-        return Dataset(self.dataname)
+        toyende = Dataset(self.dataname)
+        toyende.train = DataItem(
+            path.join(self.datapath, 'src-train.txt'),
+            path.join(self.datapath, 'tgt-train.txt')
+        )
+        toyende.test = DataItem(
+            path.join(self.datapath, 'src-test.txt'),
+            path.join(self.datapath, 'tgt-test.txt')
+        )
+        toyende.val = DataItem(
+            path.join(self.datapath, 'src-val.txt'),
+            path.join(self.datapath, 'tgt-val.txt')
+        )
 
-
-class RapidSETRead(DataReader):
-    def __init__(self, datapath: str) -> None:
-        super().__init__(datapath)
-        self.dataname = 'rapid2016'
-
-    def _parse_data(self, trainsplit = defaults.trainsplit, holdout = defaults.holdout) -> Dataset:
-        print(f'Reading {self.dataname} from {self.datapath}')
-        return Dataset(self.dataname)
+        return toyende
