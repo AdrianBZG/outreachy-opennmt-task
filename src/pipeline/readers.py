@@ -12,7 +12,9 @@ class RapidSETReader(DataReader):
 
     def _parse_data(self, trainsplit = defaults.trainsplit, holdout = defaults.holdout) -> Dataset:
         print(f'Reading {self.dataname} from {self.datapath}')
-        return Dataset(self.dataname)
+
+        rapid = Dataset(name=self.dataname, path=self.datapath)
+        return rapid
 
 
 class ToyENDEReader(DataReader):
@@ -29,7 +31,7 @@ class ToyENDEReader(DataReader):
         if holdout is not None:
             raise NotImplementedError('This dataset does not support custom holdout.')
 
-        toyende = Dataset(self.dataname)
+        toyende = Dataset(name=self.dataname, path=self.datapath)
         toyende.train = DataItem(
             path.join(self.datapath, 'src-train.txt'),
             path.join(self.datapath, 'tgt-train.txt')

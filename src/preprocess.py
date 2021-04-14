@@ -1,5 +1,7 @@
-from config import defaults
-from src.pipeline import tokenize, readers
+from config import defaults, genconfig
+
+from src.utils.dataset import Dataset
+from src.pipeline import readers, vocab
 
 def setup_dataset(name:str):
     if name not in defaults.datasets:
@@ -17,4 +19,12 @@ def setup_dataset(name:str):
         raise NotImplementedError
         
     dataset = datareader._parse_data()
+    genconfig.gen_yaml_config(dataset)
+
     return dataset
+
+
+def setup_vocab(ds: Dataset):
+    options, unknown = vocab._build_vocabulary(ds)
+
+    return

@@ -1,24 +1,47 @@
-from argparse import ArgumentParser
+import yaml
+from os import path
 from config import defaults
+from src.utils.dataset import DataItem, Dataset
 
-sys_args = [
-    # ('--dataset', dest='dataset', type=str, help='Name of the candidate')
-    # ('--surname', dest='surname', type=str, help='Surname of the candidate')
-    # ('--age', dest='age', type=int, help='Age of the candidate')
-]
+yamlconf = lambda ds: f"""## Where the samples will be written
+save_data: {path.join(ds.path, 'run', 'samples')}
 
-class Parser():
-    def __init__():
-        pass
+## Where the vocab(s) will be written
+src_vocab: {ds.vocab.source}
+tgt_vocab: {ds.vocab.target}
 
-def arg_parser():
-    parser = ArgumentParser(description='Application Parameters')
-    for arg in sys_args:
-        parser.add_argument(arg)
+# Prevent overwriting existing files in the folder
+overwrite: False
 
-    return parser.parse_args()
+# Corpus opts:
+data:
+    corpus:
+        path_src: {ds.train.source}
+        path_tgt: {ds.train.target}
+    valid:
+        path_src: {ds.val.source}
+        path_tgt: {ds.val.target}
 
+# Train on a single GPU
+world_size: 1
+gpu_ranks: [0]
 
-def setup_config_args(args):
-    for key in args:
-        defaults.datasets.append(key)
+# Where to save the checkpoints
+save_model: {path.join(ds.path, 'run', 'model')}
+save_checkpoint_steps: 500
+train_steps: 1000
+valid_steps: 500
+"""
+
+def gen_yaml_config(ds: Dataset):
+    ds.vocab = DataItem(
+        f"{path.join(ds.path, 'run', ds.name)}.vocab.src",
+        f"{path.join(ds.path, 'run', ds.name)}.vocab.tgt"
+    )
+
+    conf = yamlconf(ds)
+    options = yaml.safe_load(conf)
+    with open(f"{path.join(ds.path, 'config.yaml')}", "w") as f:
+        f.write(conf)      
+
+    return options

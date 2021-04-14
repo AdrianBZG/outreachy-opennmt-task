@@ -22,13 +22,17 @@ class Dataset():
     """
 
     name = str
+    path = str
+
+    vocab = DataItem
 
     train = DataItem
     test = DataItem
     val = DataItem
 
-    def __init__(self, name: str = 'nodata') -> None:
+    def __init__(self, name: str = 'nodata', path: str = './') -> None:
         self.name = name
+        self.path = path
         pass
 
     def __repr__(self) -> str:
