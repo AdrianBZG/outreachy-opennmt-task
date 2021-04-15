@@ -1,7 +1,3 @@
-import yaml
-
-base_args = ([])
-
 datasets = ['toy-ende', 'rapid2016', 'wiki']
 datapaths = {
     "toy-ende": "data/toy-ende",

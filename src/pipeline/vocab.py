@@ -9,7 +9,7 @@ from onmt.inputters import inputter
 from src.utils.dataset import Dataset
 
 
-def _build_vocabulary(ds: Dataset) -> None:
+def build_vocabulary(ds: Dataset) -> None:
     base_args = ([
         "-config", f"{path.join(ds.path, 'config.yaml')}", 
         "-n_sample", "10000"
@@ -24,7 +24,7 @@ def _build_vocabulary(ds: Dataset) -> None:
     return options, unknown
 
 
-def _build_fields(ds: Dataset):
+def build_fields(ds: Dataset):
     # initialize the frequency counter
     counters = defaultdict(Counter)
 

@@ -1,16 +1,20 @@
 from typing import Iterator
 from onmt import Trainer
 from onmt.utils import ReportMgr
-from onmt.inputters import inputter, corpus
+from onmt.inputters.corpus import ParallelCorpus
+from onmt.inputters.inputter import IterOnDevice
 from onmt.inputters.dynamic_iterator import DynamicDatasetIter
 
 from src.utils.dataset import Dataset
+from onmt.models.model import NMTModel
+from onmt.utils.loss import NMTLossCompute
+from onmt.utils.optimizers import Optimizer
 
 
 def setup_training_iterator(ds: Dataset, vocab):
     # build the ParallelCorpus
-    corpus = corpus.ParallelCorpus("corpus", ds.train.source, ds.train.target)
-    valid = corpus.ParallelCorpus("valid", ds.val.source, ds.val.target)
+    corpus = ParallelCorpus("corpus", ds.train.source, ds.train.target)
+    valid = ParallelCorpus("valid", ds.val.source, ds.val.target)
 
     # build the training iterator
     iterator = DynamicDatasetIter(
@@ -43,12 +47,13 @@ def setup_training_iterator(ds: Dataset, vocab):
     return iterator, validator
 
 
-def train(model, train_iter: Iterator, valid_iter: Iterator):
+def train(model: NMTModel, loss: NMTLossCompute, opt: Optimizer, train_iter: Iterator, valid_iter: Iterator):
     report_manager = ReportMgr(report_every=50, start_time=None, tensorboard_writer=None)
+    
     trainer = Trainer(model=model,
         train_loss=loss,
         valid_loss=loss,
-        optim=optim,
+        optim=opt,
         report_manager=report_manager,
         dropout=[0.1])
 

@@ -4,6 +4,8 @@ from onmt.utils.logging import init_logger
 from onmt.utils.misc import set_random_seed
 
 from src import preprocess, training, evaluate
+from src.model.lstm import BaseLSTMModel
+
 
 def main():    
     init_logger()
@@ -12,15 +14,13 @@ def main():
 
     try:
         data = preprocess.setup_dataset('toy-ende')
-        vocab, padding = preprocess.setup_vocab(data)
-
-        srcpad, tgtpad = padding
+        vocab = preprocess.setup_vocab(data)
 
         # Init model
-        Model = ''  
+        Model, loss, opt = BaseLSTMModel(vocab)  
 
         trainer, validator = training.setup_training_iterator(data, vocab)
-        report = training.train(Model, trainer, validator)
+        report = training.train(Model, loss, opt, trainer, validator)
 
         evaluate.evaluation(report)
     except (RuntimeError):

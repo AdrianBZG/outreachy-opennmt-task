@@ -10,8 +10,8 @@ save_data: {path.join(ds.path, 'run', 'samples')}
 src_vocab: {ds.vocab.source}
 tgt_vocab: {ds.vocab.target}
 
-# Prevent overwriting existing files in the folder
-overwrite: False
+# Overwriting existing files in the folder
+overwrite: True
 
 # Corpus opts:
 data:
