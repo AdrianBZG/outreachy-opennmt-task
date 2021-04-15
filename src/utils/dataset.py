@@ -27,8 +27,8 @@ class Dataset():
     vocab = DataItem
 
     train = DataItem
-    test = DataItem
     val = DataItem
+    test = DataItem
 
     def __init__(self, name: str = 'nodata', path: str = './') -> None:
         self.name = name
@@ -36,7 +36,7 @@ class Dataset():
         pass
 
     def __repr__(self) -> str:
-        return f'<Dataset {self.name} \n\ttrain: {self.train} \n\ttest: {self.test} \n\tval: {self.val}>'
+        return f'<Dataset {self.name} {self.path} \n\ttrain: {self.train} \n\tval: {self.val} \n\ttest: {self.test} >'
 
     def items(self):
         return [self.train, self.test, self.val]

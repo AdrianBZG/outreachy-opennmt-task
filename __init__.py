@@ -1,13 +1,21 @@
 from sys import argv
+from torch import cuda
 from onmt.utils.logging import init_logger
+from onmt.utils.misc import set_random_seed
 
-from src.preprocess import setup_dataset, setup_vocab
+from src import preprocess, training, evaluate
 
 def main():    
     init_logger()
+    is_cuda = cuda.is_available()
+    set_random_seed(1111, is_cuda)
+
     try:
-        ds = setup_dataset('toy-ende')
-        setup_vocab(ds)
+        datas = preprocess.setup_dataset('toy-ende')
+        vocab = preprocess.setup_vocab(datas)
+
+        trainer, validator = training.setup_training_iterator(datas, vocab)
+
     except (RuntimeError):
         return RuntimeError
     
