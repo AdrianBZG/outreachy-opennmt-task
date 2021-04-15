@@ -11,11 +11,18 @@ def main():
     set_random_seed(1111, is_cuda)
 
     try:
-        datas = preprocess.setup_dataset('toy-ende')
-        vocab = preprocess.setup_vocab(datas)
+        data = preprocess.setup_dataset('toy-ende')
+        vocab, padding = preprocess.setup_vocab(data)
 
-        trainer, validator = training.setup_training_iterator(datas, vocab)
+        srcpad, tgtpad = padding
 
+        # Init model
+        Model = ''  
+
+        trainer, validator = training.setup_training_iterator(data, vocab)
+        report = training.train(Model, trainer, validator)
+
+        evaluate.evaluation(report)
     except (RuntimeError):
         return RuntimeError
     
@@ -27,4 +34,4 @@ if __name__ == '__main__':
     print(f"Arguments of the script : {argv[1:]}")
     print()
 
-    main()
+    exit_code = main()

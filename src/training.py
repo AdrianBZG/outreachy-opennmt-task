@@ -52,8 +52,8 @@ def train(model, train_iter: Iterator, valid_iter: Iterator):
         report_manager=report_manager,
         dropout=[0.1])
 
-    trainer.train(
+    stats = trainer.train(
         train_iter=train_iter, train_steps=1000,
         valid_iter=valid_iter, valid_steps=500)
 
-    return
+    return stats

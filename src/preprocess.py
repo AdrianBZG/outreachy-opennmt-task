@@ -27,12 +27,10 @@ def setup_vocab(ds: Dataset):
     options, unknown = vocab._build_vocabulary(ds)
     vocab_fields = vocab._build_fields()
 
-    # src_text_field = vocab_fields["src"].base_field
-    # src_vocab = src_text_field.vocab
-    # src_padding = src_vocab.stoi[src_text_field.pad_token]
+    src_text_field = vocab_fields['src'].base_field
+    src_padding = src_text_field.vocab.stoi[src_text_field.pad_token]
 
-    # tgt_text_field = vocab_fields['tgt'].base_field
-    # tgt_vocab = tgt_text_field.vocab
-    # tgt_padding = tgt_vocab.stoi[tgt_text_field.pad_token]
+    tgt_text_field = vocab_fields['tgt'].base_field
+    tgt_padding = tgt_text_field.vocab.stoi[tgt_text_field.pad_token]
 
-    return vocab_fields
+    return vocab_fields, (src_padding, tgt_padding)
