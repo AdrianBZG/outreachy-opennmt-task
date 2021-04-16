@@ -2,11 +2,11 @@ import onmt
 import torch
 
 emb_size = 100
-d_model = 1
-tx_encoder_layers = 1
-tx_decoder_layers = 1
-lr=1
-heads=5
+d_model = 5
+tx_encoder_layers = 6
+tx_decoder_layers = 6
+lr=0.001
+heads=8
 
 
 def SimpleTransformer(vocab):

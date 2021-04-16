@@ -13,13 +13,23 @@ class RapidSETReader(DataReader):
     def _parse_data(self, trainsplit: float = defaults.trainsplit, holdout: float = defaults.holdout) -> Dataset:
         print(f'Reading {self.dataname} from {self.datapath}')
 
+        if trainsplit >= 1 or holdout >= 1:
+            raise ValueError('trainsplit and holdout must be < 1')
+
+        # Split into train, test, val
+
         rapid = Dataset(name=self.dataname, path=self.datapath)
+        rapid.train = DataItem(
+            path.join(self.datapath, 'rapid2016.de-en.de'),
+            path.join(self.datapath, 'rapid2016.de-en.en')
+        )
         return rapid
 
 
 class WikiTitlesReader(DataReader):
     def __init__(self, datapath: str) -> None:
         super().__init__(datapath)
+        self.dataname = 'wiki'
         raise NotImplementedError
 
 
