@@ -1,6 +1,5 @@
 import onmt
 import torch
-from typing import Tuple
 
 emb_size = 100
 rnn_size = 500

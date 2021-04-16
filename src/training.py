@@ -1,3 +1,4 @@
+from torch import cuda
 from typing import Iterator
 from onmt import Trainer
 from onmt.utils import ReportMgr
@@ -41,8 +42,8 @@ def setup_training_iterator(ds: Dataset, vocab):
         data_type="text")
         
     # make sure the iteration happens on GPU 0 (-1 for CPU, N for GPU N)
-    # iterator = iter(inputter.IterOnDevice(iterator, 0))
-    # validator = iter(inputter.IterOnDevice(validator, 0))
+    iterator = iter(IterOnDevice(iterator, 0 if cuda.is_available() else -1))
+    validator = iter(IterOnDevice(validator, 0 if cuda.is_available() else -1))
 
     return iterator, validator
 

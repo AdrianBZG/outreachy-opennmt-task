@@ -27,7 +27,7 @@ world_size: 1
 gpu_ranks: [0]
 
 # Where to save the checkpoints
-save_model: {path.join(ds.path, 'run', 'model')}
+save_model: {path.join('trained', ds.name, 'model')}
 save_checkpoint_steps: 500
 train_steps: 1000
 valid_steps: 500
