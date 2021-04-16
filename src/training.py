@@ -1,5 +1,5 @@
 from torch import cuda
-from typing import Iterator
+from typing import Iterator, List
 from onmt import Trainer
 from onmt.utils import ReportMgr
 from onmt.inputters.corpus import ParallelCorpus
@@ -12,7 +12,7 @@ from onmt.utils.loss import NMTLossCompute
 from onmt.utils.optimizers import Optimizer
 
 
-def setup_training_iterator(ds: Dataset, vocab):
+def training_iterator(ds: Dataset, vocab):
     # build the ParallelCorpus
     corpus = ParallelCorpus("corpus", ds.train.source, ds.train.target)
     valid = ParallelCorpus("valid", ds.val.source, ds.val.target)
@@ -48,18 +48,14 @@ def setup_training_iterator(ds: Dataset, vocab):
     return iterator, validator
 
 
-def train(model: NMTModel, loss: NMTLossCompute, opt: Optimizer, train_iter: Iterator, valid_iter: Iterator):
+def training_session(model: NMTModel, loss: NMTLossCompute, opt: Optimizer, dropout: List[float] = [0.1]):
     report_manager = ReportMgr(report_every=50, start_time=None, tensorboard_writer=None)
-    
-    trainer = Trainer(model=model,
+    session = Trainer(
+        model=model,
         train_loss=loss,
         valid_loss=loss,
         optim=opt,
         report_manager=report_manager,
-        dropout=[0.1])
+        dropout=dropout)
 
-    stats = trainer.train(
-        train_iter=train_iter, train_steps=1000,
-        valid_iter=valid_iter, valid_steps=500)
-
-    return stats
+    return session

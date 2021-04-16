@@ -4,7 +4,11 @@ from onmt.utils.logging import init_logger
 from onmt.utils.misc import set_random_seed
 
 from src import preprocess, training, evaluate
-from src.model.lstm import BaseLSTMModel
+from src.model import lstm, transformer
+
+train_steps = 500
+valid_steps = 200
+checkpoint = 100
 
 
 def main():    
@@ -17,10 +21,16 @@ def main():
         vocab = preprocess.setup_vocab(data)
 
         # Init model
-        Model, loss, opt = BaseLSTMModel(vocab)  
+        Model, loss, opt = lstm.BaseLSTMModel(vocab)  
 
-        trainer, validator = training.setup_training_iterator(data, vocab)
-        report = training.train(Model, loss, opt, trainer, validator)
+        train, validate = training.training_iterator(data, vocab)
+        TrainingSession = training.training_session(Model, loss, opt)
+
+        report = TrainingSession.train(
+            train_iter=train, train_steps=train_steps,
+            valid_iter=validate, valid_steps=valid_steps,
+            save_checkpoint_steps=checkpoint
+        )
 
         evaluate.evaluation(report)
     except (RuntimeError):

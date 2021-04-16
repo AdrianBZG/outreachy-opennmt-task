@@ -3,6 +3,9 @@ import torch
 
 emb_size = 100
 rnn_size = 500
+rnn_encoder_layers = 1
+rnn_decoder_layers = 1
+lr = 1
 # Specify the core model.
 
 
@@ -15,14 +18,17 @@ def BaseLSTMModel(vocab):
         
     encoder_embeddings = onmt.modules.Embeddings(emb_size, len(src_vocab), word_padding_idx=src_padding)
     encoder = onmt.encoders.RNNEncoder(
-        hidden_size=rnn_size, num_layers=1,
-        rnn_type="LSTM", bidirectional=True,
-        embeddings=encoder_embeddings)
+        hidden_size=rnn_size, num_layers=rnn_encoder_layers,
+        bidirectional=True, rnn_type="LSTM", 
+        embeddings=encoder_embeddings
+    )
 
     decoder_embeddings = onmt.modules.Embeddings(emb_size, len(tgt_vocab), word_padding_idx=tgt_padding)
     decoder = onmt.decoders.decoder.InputFeedRNNDecoder(
-        hidden_size=rnn_size, num_layers=1, bidirectional_encoder=True, 
-        rnn_type="LSTM", embeddings=decoder_embeddings)
+        hidden_size=rnn_size, num_layers=rnn_decoder_layers, 
+        bidirectional_encoder=True, rnn_type="LSTM", 
+        embeddings=decoder_embeddings
+    )
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -38,7 +44,6 @@ def BaseLSTMModel(vocab):
         criterion=torch.nn.NLLLoss(ignore_index=tgt_padding, reduction="sum"),
         generator=model.generator)
 
-    lr = 1
     torch_optimizer = torch.optim.SGD(model.parameters(), lr=lr)
     optimizer = onmt.utils.optimizers.Optimizer(torch_optimizer, learning_rate=lr, max_grad_norm=2)
 
