@@ -28,13 +28,17 @@ data:
         # transforms: [sentencepiece, filtertoolong]
 
 # Train on a single GPU
-world_size: 1
-gpu_ranks: [0]
+# world_size: 1
+# gpu_ranks: [0]
 
 # ### Transform related opts:
 # #### Subword
-# src_subword_model: {path.join('data', ds.name, 'run', 'src.model')}
-# tgt_subword_model: {path.join('data', ds.name, 'run', 'tgt.model')}
+src_subword_type: bpe
+src_subword_model: {path.join('data', ds.name, 'run', 'subwords.bpe')}
+src_onmttok_kwargs: {str(defaults.tokenizer_args)}
+tgt_onmttok_kwargs: {str(defaults.tokenizer_args)}
+transforms: [onmt_tokenize]
+
 # src_subword_nbest: 1
 # src_subword_alpha: 0.0
 # tgt_subword_nbest: 1

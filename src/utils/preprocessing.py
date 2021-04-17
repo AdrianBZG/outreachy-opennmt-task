@@ -17,7 +17,7 @@ class DataReader(ABC):
         self.datapath = datapath
 
     @abstractmethod
-    def _parse_data(self, trainsplit: float, holdout: float) -> Dataset:
+    def _parse_data(self, tokenize: bool, trainsplit: float, holdout: float) -> Dataset:
         raise NotImplementedError
 
     def __repr__(self) -> str:
