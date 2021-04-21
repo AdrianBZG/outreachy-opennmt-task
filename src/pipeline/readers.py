@@ -33,8 +33,8 @@ class RapidSETReader(DataReader):
     def tokenize(self):
         print('Tokenizing and training BPE model')
         
-        tokenizer_default = pyonmttok.Tokenizer(**defaults.tokenizer_args)
-        learner = pyonmttok.BPELearner(tokenizer=tokenizer_default, symbols=defaults.tokenizer_nsymbols)
+        tokenizer_default = pyonmttok.Tokenizer(**defaults.tokenizer["args"])
+        learner = pyonmttok.BPELearner(tokenizer=tokenizer_default, symbols=defaults.tokenizer["nsymbols"])
 
         # load training corpus
         learner.ingest_file(path.join('data', 'rapid2016', 'rapid2016.de-en.de'))
@@ -93,8 +93,8 @@ class ToyENDEReader(DataReader):
     def tokenize(self):
         print('Tokenizing and training BPE model')
         
-        tokenizer_default = pyonmttok.Tokenizer(**defaults.tokenizer_args)
-        learner = pyonmttok.BPELearner(tokenizer=tokenizer_default, symbols=defaults.tokenizer_nsymbols)
+        tokenizer_default = pyonmttok.Tokenizer(**defaults.tokenizer["args"])
+        learner = pyonmttok.BPELearner(tokenizer=tokenizer_default, symbols=defaults.tokenizer["nsymbols"])
 
         # load training corpus
         learner.ingest_file(path.join('data', 'toy-ende', 'src-train.txt'))
