@@ -25,7 +25,8 @@ tokenizer = {
 training = {
     "train_steps": 500,
     "valid_steps": 200,
-    "save_checkpoint_steps": 100
+    "save_checkpoint_steps": 100,
+    "dropout": 0.1
 }
 
 # Default config options for model.lstm.BaseLSTMModel

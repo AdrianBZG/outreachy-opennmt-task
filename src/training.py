@@ -2,6 +2,7 @@ from torch import cuda
 from onmt import Trainer
 from onmt.utils import ReportMgr
 from onmt.inputters import corpus, inputter, dynamic_iterator
+from config import defaults
 
 from onmt.models.model import NMTModel
 from onmt.utils.loss import NMTLossCompute
@@ -45,7 +46,7 @@ def training_iterator(ds: Dataset, vocab):
     return iterator, validator
 
 
-def training_session(model: NMTModel, loss: NMTLossCompute, opt: Optimizer, dropout: float = 0.1):
+def training_session(model: NMTModel, loss: NMTLossCompute, opt: Optimizer, dropout: float = defaults.training["dropout"]):
     report_manager = ReportMgr(report_every=50, start_time=None, tensorboard_writer=None)
     session = Trainer(
         model=model,
