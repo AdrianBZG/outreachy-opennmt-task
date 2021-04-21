@@ -1,5 +1,4 @@
 from os import path
-from typing import List
 from config import defaults
 from src.utils.dataset import DataItem, Dataset
 from src.utils.preprocessing import DataReader
@@ -94,7 +93,7 @@ class ToyENDEReader(DataReader):
         print('Tokenizing and training BPE model')
         
         tokenizer_default = pyonmttok.Tokenizer(**defaults.tokenizer["args"])
-        learner = pyonmttok.BPELearner(tokenizer=tokenizer_default, symbols=defaults.tokenizer["nsymbols"])
+        learner = pyonmttok.BPELearner(tokenizer=tokenizer_default, symbols=defaults.tokenizer["symbols"])
 
         # load training corpus
         learner.ingest_file(path.join('data', 'toy-ende', 'src-train.txt'))

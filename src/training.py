@@ -1,25 +1,22 @@
 from torch import cuda
-from typing import Iterator, List
 from onmt import Trainer
 from onmt.utils import ReportMgr
-from onmt.inputters.corpus import ParallelCorpus
-from onmt.inputters.inputter import IterOnDevice
-from onmt.inputters.dynamic_iterator import DynamicDatasetIter
+from onmt.inputters import corpus, inputter, dynamic_iterator
 
-from src.utils.dataset import Dataset
 from onmt.models.model import NMTModel
 from onmt.utils.loss import NMTLossCompute
 from onmt.utils.optimizers import Optimizer
+from src.utils.dataset import Dataset
 
 
 def training_iterator(ds: Dataset, vocab):
     # build the ParallelCorpus
-    corpus = ParallelCorpus("corpus", ds.train.source, ds.train.target)
-    valid = ParallelCorpus("valid", ds.val.source, ds.val.target)
+    train = corpus.ParallelCorpus("corpus", ds.train.source, ds.train.target)
+    valid = corpus.ParallelCorpus("valid", ds.val.source, ds.val.target)
 
     # build the training iterator
-    iterator = DynamicDatasetIter(
-        corpora={"corpus": corpus},
+    iterator = dynamic_iterator.DynamicDatasetIter(
+        corpora={"corpus": train},
         corpora_info={"corpus": {"weight": 1}},
         transforms={},
         fields=vocab,
@@ -30,7 +27,7 @@ def training_iterator(ds: Dataset, vocab):
         data_type="text")
 
     # build the validation iterator
-    validator = DynamicDatasetIter(
+    validator = dynamic_iterator.DynamicDatasetIter(
         corpora={"valid": valid},
         corpora_info={"valid": {"weight": 1}},
         transforms={},
@@ -42,13 +39,13 @@ def training_iterator(ds: Dataset, vocab):
         data_type="text")
         
     # make sure the iteration happens on GPU 0 (-1 for CPU, N for GPU N)
-    iterator = iter(IterOnDevice(iterator, 0 if cuda.is_available() else -1))
-    validator = iter(IterOnDevice(validator, 0 if cuda.is_available() else -1))
+    iterator = iter(inputter.IterOnDevice(iterator, 0 if cuda.is_available() else -1))
+    validator = iter(inputter.IterOnDevice(validator, 0 if cuda.is_available() else -1))
 
     return iterator, validator
 
 
-def training_session(model: NMTModel, loss: NMTLossCompute, opt: Optimizer, dropout: List[float] = [0.1]):
+def training_session(model: NMTModel, loss: NMTLossCompute, opt: Optimizer, dropout: float = 0.1):
     report_manager = ReportMgr(report_every=50, start_time=None, tensorboard_writer=None)
     session = Trainer(
         model=model,

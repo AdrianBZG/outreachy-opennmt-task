@@ -8,8 +8,9 @@ datapaths = {
 trainsplit = 0.6
 holdout = 0.2
 
+# Default config options for pyonmttok.Tokenizer
 tokenizer = {
-    "nsymbols": 40000,
+    "symbols": 40000,
     "args": {
         "mode": "aggressive",
         "joiner_annotate": True,
@@ -20,6 +21,14 @@ tokenizer = {
     }
 }
 
+# Default config options for onmt.Trainer
+training = {
+    "train_steps": 500,
+    "valid_steps": 200,
+    "save_checkpoint_steps": 100
+}
+
+# Default config options for model.lstm.BaseLSTMModel
 lstm = {
     "emb_size": 100,
     "learning_rate": 1,
@@ -37,6 +46,7 @@ lstm = {
     }
 }
 
+# Default config options for model.transformer.SimpleTransformer
 transformer = {
     "emb_size": 100,
     "learning_rate": 1,

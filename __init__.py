@@ -3,12 +3,9 @@ from torch import cuda
 from onmt.utils.logging import init_logger
 from onmt.utils.misc import set_random_seed
 
+from config import defaults
 from src import preprocess, training, evaluate
 from src.model import lstm, transformer
-
-train_steps = 500
-valid_steps = 200
-checkpoint = 100
 
 
 def main():    
@@ -27,10 +24,9 @@ def main():
         TrainingSession = training.training_session(Model, loss, opt)
 
         report = TrainingSession.train(
-            train_iter=train, train_steps=train_steps,
-            valid_iter=validate, valid_steps=valid_steps,
-            save_checkpoint_steps=checkpoint
-        )
+            train_iter=train, 
+            valid_iter=validate, 
+            **defaults.training)
 
         evaluate.evaluation(report)
     except (RuntimeError):
