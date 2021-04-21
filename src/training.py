@@ -46,7 +46,7 @@ def training_iterator(ds: Dataset, vocab):
     return iterator, validator
 
 
-def training_session(model: NMTModel, loss: NMTLossCompute, opt: Optimizer, dropout: float = defaults.training["dropout"]):
+def training_session(model: NMTModel, loss: NMTLossCompute, opt: Optimizer, dropout: float = defaults.dropout):
     report_manager = ReportMgr(report_every=50, start_time=None, tensorboard_writer=None)
     session = Trainer(
         model=model,

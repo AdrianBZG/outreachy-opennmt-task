@@ -4,6 +4,11 @@ import torch
 
 
 def BaseLSTMModel(vocab):
+    """
+    LSTM Based Simple RNN Model.
+    Example network given by OpenNMT-py documentation.
+    """
+
     src_vocab = vocab['src'].base_field.vocab
     tgt_vocab = vocab['tgt'].base_field.vocab
 

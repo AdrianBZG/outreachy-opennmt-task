@@ -21,12 +21,23 @@ tokenizer = {
     }
 }
 
+# Default config options for onmt.inputters.inputter._build_fields_vocab
+vocabulary = {
+    "data_type": "text",
+    "share_vocab": False,
+    "vocab_size_multiple": 1,
+    "src_vocab_size": 30000,
+    "tgt_vocab_size": 30000,
+    "src_words_min_frequency": 1,
+    "tgt_words_min_frequency": 1
+}
+
 # Default config options for onmt.Trainer
+dropout = 0.1
 training = {
     "train_steps": 500,
     "valid_steps": 200,
-    "save_checkpoint_steps": 100,
-    "dropout": 0.1
+    "save_checkpoint_steps": 50
 }
 
 # Default config options for model.lstm.BaseLSTMModel
@@ -39,11 +50,11 @@ lstm = {
         "num_layers": 1,
         "bidirectional": True
     },
-    "encoder": {
+    "decoder": {
         "rnn_type": "LSTM", 
         "hidden_size": 500, 
         "num_layers": 1,
-        "bidirectional": True
+        "bidirectional_encoder": True
     }
 }
 
@@ -61,9 +72,8 @@ transformer = {
         "d_model": 5,
         "heads": 8,
         "self_attn_type": "average",
-        
-        # dropout (float): dropout in residual, self-attn(dot) and feed-forward
         # d_ff (int): size of the inner FF layer
+        # dropout (float): dropout in residual, self-attn(dot) and feed-forward
         # attention_dropout (float): dropout in context_attn (and self-attn(avg))
     }
 }

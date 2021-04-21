@@ -8,7 +8,7 @@
       "name": "Run Script",
       "type": "python",
       "request": "launch",
-      "program": "${file}",
+      "program": "__init__.py",
       "console": "integratedTerminal"
     }
   ]

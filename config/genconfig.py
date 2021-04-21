@@ -35,8 +35,8 @@ data:
 # #### Subword
 src_subword_type: bpe
 src_subword_model: {path.join('data', ds.name, 'run', 'subwords.bpe')}
-src_onmttok_kwargs: {str(defaults.tokenizer_args)}
-tgt_onmttok_kwargs: {str(defaults.tokenizer_args)}
+src_onmttok_kwargs: {str(defaults.tokenizer["args"])}
+tgt_onmttok_kwargs: {str(defaults.tokenizer["args"])}
 transforms: [onmt_tokenize]
 
 # src_subword_nbest: 1

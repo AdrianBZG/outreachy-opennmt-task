@@ -1,6 +1,6 @@
 from os import path
 from collections import defaultdict, Counter
-
+from config import defaults
 from onmt.utils.parse import ArgumentParser
 from onmt.opts import dynamic_prepare_opts
 from onmt.bin.build_vocab import build_vocab_main
@@ -33,19 +33,8 @@ def build_fields(ds: Dataset):
 
     # initialize fields
     src_nfeats, tgt_nfeats = 0, 0 # do not support word features for now
-    fields = inputter.get_fields('text', src_nfeats, tgt_nfeats)
+    fields = inputter.get_fields(defaults.vocabulary["data_type"], src_nfeats, tgt_nfeats)
 
-    # build fields vocab config
-    share_vocab = False
-    vocab_size_multiple = 1
-    src_vocab_size = 30000
-    tgt_vocab_size = 30000
-    src_words_min_frequency = 1
-    tgt_words_min_frequency = 1
-
-    vocab_fields = inputter._build_fields_vocab(
-        fields, counters, 'text', share_vocab, vocab_size_multiple,
-        src_vocab_size, src_words_min_frequency,
-        tgt_vocab_size, tgt_words_min_frequency)
+    vocab_fields = inputter._build_fields_vocab(fields, counters, **defaults.vocabulary)
 
     return vocab_fields
