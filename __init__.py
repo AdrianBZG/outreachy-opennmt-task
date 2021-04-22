@@ -1,4 +1,3 @@
-from logging import error
 from sys import argv
 from torch import cuda
 from onmt.utils.logging import init_logger
@@ -36,11 +35,10 @@ def main():
 if __name__ == '__main__':  
     print(f"Name of the script      : {argv[0]}")
     print(f"Arguments of the script : {argv[1:]}")
-    print()
 
-    exit_code = main()
-
-    # try:
-        
-    # except (error):
-    #     print(f"Exited with {error}")
+    try:
+        exit_code = main()
+    except:
+        print("Exited with error")
+    finally:
+        print(f"{exit_code}")
