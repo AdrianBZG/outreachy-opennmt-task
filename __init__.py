@@ -1,3 +1,4 @@
+from logging import error
 from sys import argv
 from torch import cuda
 from onmt.utils.logging import init_logger
@@ -13,24 +14,21 @@ def main():
     is_cuda = cuda.is_available()
     set_random_seed(1111, is_cuda)
 
-    try:
-        data = preprocess.setup_dataset('toy-ende')
-        vocab = preprocess.setup_vocab(data)
+    data = preprocess.setup_dataset('toy-ende')
+    vocab = preprocess.setup_vocab(data)
 
-        # Init model
-        Model, loss, opt = lstm.BaseLSTMModel(vocab)  
+    # Init model
+    model, loss, opt = transformer.SimpleTransformer(vocab)
 
-        train, validate = training.training_iterator(data, vocab)
-        TrainingSession = training.training_session(Model, loss, opt)
+    train, validate = training.training_iterator(data, vocab)
+    TrainingSession = training.training_session(model, loss, opt)
 
-        report = TrainingSession.train(
-            train_iter=train, 
-            valid_iter=validate, 
-            **defaults.training)
+    report = TrainingSession.train(
+        train_iter=train, 
+        valid_iter=validate, 
+        **defaults.training)
 
-        evaluate.evaluation(report)
-    except (RuntimeError):
-        return RuntimeError
+    evaluate.evaluation(model, data, vocab)
     
     return 0
 
@@ -41,3 +39,8 @@ if __name__ == '__main__':
     print()
 
     exit_code = main()
+
+    # try:
+        
+    # except (error):
+    #     print(f"Exited with {error}")

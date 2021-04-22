@@ -25,10 +25,11 @@ def SimpleTransformer(vocab):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model.to(device)
 
-    # Specify the tgt word generator and loss computation module
-    # model.generator = torch.nn.Sequential(
-    #     torch.nn.Linear(rnn_size, len(tgt_vocab)),
-    #     torch.nn.LogSoftmax(dim=-1)).to(device)
+    # Specify the tgt word generator
+    model.generator = torch.nn.Sequential(
+        torch.nn.Linear(defaults.transformer["decoder"]["d_model"], len(tgt_vocab)),
+        torch.nn.LogSoftmax(dim=-1)
+    ).to(device)
 
     loss = onmt.utils.loss.NMTLossCompute(
         criterion=torch.nn.NLLLoss(ignore_index=tgt_padding, reduction="sum"),

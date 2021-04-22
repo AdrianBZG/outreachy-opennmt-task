@@ -1,4 +1,4 @@
-datasets = ['toy-ende', 'rapid2016', 'wiki']
+datasets = ["toy-ende", "rapid2016", "wiki"]
 datapaths = {
     "toy-ende": "data/toy-ende",
     "rapid2016": "data/rapid2016",
@@ -35,9 +35,9 @@ vocabulary = {
 # Default config options for onmt.Trainer
 dropout = 0.1
 training = {
-    "train_steps": 500,
-    "valid_steps": 200,
-    "save_checkpoint_steps": 50
+    "train_steps": 100000,
+    "valid_steps": 4000,
+    "save_checkpoint_steps": 4000
 }
 
 # Default config options for model.lstm.BaseLSTMModel
@@ -60,20 +60,30 @@ lstm = {
 
 # Default config options for model.transformer.SimpleTransformer
 transformer = {
-    "emb_size": 100,
-    "learning_rate": 1,
+    "emb_size": 512,
+    "learning_rate": 2,
     "encoder" : {
+        "d_model": 512,
         "num_layers": 6,
-        "d_model": 5,
-        "heads": 8
+        "heads": 8,
+        "d_ff": 2048, 
+        "dropout": 0.1, 
+        "attention_dropout": 0.1,
+        "max_relative_positions": 0
     },
     "decoder" : {
+        "d_model": 512,
         "num_layers": 6,
-        "d_model": 5,
         "heads": 8,
         "self_attn_type": "average",
-        # d_ff (int): size of the inner FF layer
-        # dropout (float): dropout in residual, self-attn(dot) and feed-forward
-        # attention_dropout (float): dropout in context_attn (and self-attn(avg))
+        "d_ff": 2048, # size of the inner FF layer
+        "dropout": 0.1, # dropout in residual, self-attn(dot) and feed-forward
+        "attention_dropout": 0.1, # attention_dropout (float): dropout in context_attn (and self-attn(avg))
+        "copy_attn": True,
+        "max_relative_positions": 0,
+        "aan_useffn": False,
+        "full_context_alignment": False,
+        "alignment_layer": 1,
+        "alignment_heads": 0
     }
 }

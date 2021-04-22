@@ -35,6 +35,4 @@ def build_fields(ds: Dataset):
     src_nfeats, tgt_nfeats = 0, 0 # do not support word features for now
     fields = inputter.get_fields(defaults.vocabulary["data_type"], src_nfeats, tgt_nfeats)
 
-    vocab_fields = inputter._build_fields_vocab(fields, counters, **defaults.vocabulary)
-
-    return vocab_fields
+    return inputter._build_fields_vocab(fields, counters, **defaults.vocabulary)

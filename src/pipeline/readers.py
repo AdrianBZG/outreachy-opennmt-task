@@ -61,7 +61,7 @@ class ToyENDEReader(DataReader):
         super().__init__(datapath)
         self.dataname = 'toy-ende'
 
-    def _parse_data(self, tokenize: bool = True, trainsplit = None, holdout = None) -> Dataset:
+    def _parse_data(self, tokenize: bool = False, trainsplit = None, holdout = None) -> Dataset:
         print(f'Reading {self.dataname} from {self.datapath}')
         
         if trainsplit is not None:
