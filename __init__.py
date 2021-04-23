@@ -16,14 +16,13 @@ def main(model = "transformer", dataset = "toy-ende"):
     data = preprocess.setup_dataset(dataset)
     vocab = preprocess.setup_vocab(data)
 
-    model, loss, opt = None, None, None
     if model == "transformer":
-        model, loss, opt = transformer.SimpleTransformer(vocab)
+        Model, loss, opt = transformer.SimpleTransformer(vocab)
     elif model == "lstm":
-        model, loss, opt = lstm.BaseLSTMModel(vocab)
+        Model, loss, opt = lstm.BaseLSTMModel(vocab)
 
     train, validate = training.training_iterator(data, vocab)
-    TrainingSession = training.training_session(model, loss, opt)
+    TrainingSession = training.training_session(Model, loss, opt)
 
     report = TrainingSession.train(
         train_iter=train, 
@@ -39,10 +38,10 @@ if __name__ == '__main__':
     print(f"Name of the script      : {argv[0]}")
     print(f"Arguments of the script : {argv[1:]}")
 
-    try:
-        params = genconfig.gen_defaults_config(argv[1:])
-        exit_code = main(**params)
-    except:
-        print("[Exited with error]")
-    else:
-        print("[Exited gracefully]")
+    params = genconfig.gen_defaults_config(argv[1:])
+    exit_code = main(**params)
+    # try:
+    # except:
+    #     print("[Exited with error]")
+    # else:
+    #     print("[Exited gracefully]")

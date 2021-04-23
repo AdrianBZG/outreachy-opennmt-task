@@ -62,10 +62,11 @@ def gen_yaml_config(ds: Dataset):
     return options
 
 def gen_defaults_config(argv: List[str]):
-    known_params = {
-        "model": None,
-        "dataset": None
-    }
+    params = dict()
+    known_params = [
+        "model",
+        "dataset"
+    ]
 
     known_bindings = [
         "trainsplit", 
@@ -82,8 +83,8 @@ def gen_defaults_config(argv: List[str]):
         name, value = arg.split("=", 1)
 
         # extract known params
-        if name in known_params.keys():
-            known_params[name] = value
+        if name in known_params:
+            params[name] = value
             continue
         
         # set config defaults
@@ -93,4 +94,4 @@ def gen_defaults_config(argv: List[str]):
             defaults.bindings(ikey, chain, value)
             continue
 
-    return known_params
+    return params
