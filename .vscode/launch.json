@@ -9,7 +9,10 @@
       "type": "python",
       "request": "launch",
       "program": "__init__.py",
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "args": [
+        "model=transformer", "dataset=toy-ende"
+      ]
     }
   ]
 }

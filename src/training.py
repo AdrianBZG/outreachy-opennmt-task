@@ -1,5 +1,5 @@
 from torch import cuda
-from onmt import Trainer
+from onmt.trainer import Trainer
 from onmt.utils import ReportMgr
 from onmt.inputters import corpus, inputter, dynamic_iterator
 from config import defaults

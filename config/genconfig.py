@@ -1,5 +1,6 @@
 import yaml
 from os import path
+from typing import List
 from config import defaults
 from src.utils.dataset import DataItem, Dataset
 
@@ -59,3 +60,37 @@ def gen_yaml_config(ds: Dataset):
         f.write(conf)      
 
     return options
+
+def gen_defaults_config(argv: List[str]):
+    known_params = {
+        "model": None,
+        "dataset": None
+    }
+
+    known_bindings = [
+        "trainsplit", 
+        "holdout", 
+        "tokenizer", 
+        "vocabulary", 
+        "dropout", 
+        "training", 
+        "lstm", 
+        "transformer", 
+    ]
+
+    for arg in argv:
+        name, value = arg.split("=", 1)
+
+        # extract known params
+        if name in known_params.keys():
+            known_params[name] = value
+            continue
+        
+        # set config defaults
+        chain = name.split("-")
+        ikey = chain.pop(0)
+        if ikey in known_bindings:            
+            defaults.bindings(ikey, chain, value)
+            continue
+
+    return known_params
