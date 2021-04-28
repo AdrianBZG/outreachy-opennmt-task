@@ -27,11 +27,12 @@ def evaluation(model, ds: Dataset, vocab):
     gpu = 0 if cuda.is_available() else -1
 
     translator = Translator(model=model, 
-                            fields=vocab, 
-                            src_reader=src_reader, 
-                            tgt_reader=tgt_reader, 
-                            global_scorer=scorer,
-                            gpu=gpu)
+        fields=vocab, 
+        src_reader=src_reader, 
+        tgt_reader=tgt_reader, 
+        global_scorer=scorer,
+        gpu=gpu
+    )
 
     for batch in data_iter:
         trans_batch = translator.translate_batch(batch, [vocab["src"].base_field.vocab], attn_debug=False)
