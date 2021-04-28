@@ -40,8 +40,3 @@ if __name__ == '__main__':
 
     params = genconfig.gen_defaults_config(argv[1:])
     exit_code = main(**params)
-    # try:
-    # except:
-    #     print("[Exited with error]")
-    # else:
-    #     print("[Exited gracefully]")
