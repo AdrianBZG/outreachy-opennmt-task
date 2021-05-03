@@ -32,17 +32,18 @@ $ source ./onmttask/bin/activate
 
 Install the dependencies
 ```bash
+(onmttask) 
 $ pip install -r requirements.txt
 ```
 
 ## Datasets
-The following datasets are available in this project. These datasets sare from the [EMNLP 2017 conference](http://www.statmt.org/wmt17/translation-task.html#download). The dataset should be small so that it is easy to handle. 
+The following datasets are available in this project. These datasets are from the [EMNLP 2017 conference](http://www.statmt.org/wmt17/translation-task.html#download). The dataset should be small so that it is easy to handle. 
 
 
 | **Name**                          | **Tag**     | **Size**  | **Provided By** |
 |-----------------------------------|-------------|-----------|-----------------|
-| Toy English-German	            | `toy-ende`  | 1.6 MB    | ~               |
-| Wiki Headlines	                | `wiki`      | 9.1 MB    | CMU             |
+| Toy English-German	              | `toy-ende`  | 1.6 MB    | ~               |
+| Wiki Headlines	                  | `wiki`      | 9.1 MB    | CMU             |
 | Rapid corpus of EU press releases	| `rapid2016` | 156 MB    | Tilde           | 
 
 
@@ -53,27 +54,26 @@ $ chmod +x download.sh
 $ ./download.sh
 ```
 
-In order to add more datasets to this project, one simply needs to add the
-appropriate download scipt and implement a reader for it.
+In order to add more datasets to this project, one simply needs to add the appropriate download scipt and implement a reader for it.
 
 ```python
 # Under src/pipeline/readers.py
 class MyDataReader(DataReader):
-    def __init__(self, datapath: str) -> None:
-        super().__init__(datapath)
-        # Give the dataset the folder name its in
-        self.dataname = 'mydata'
+  def __init__(self, datapath: str) -> None:
+    super().__init__(datapath)
+    # Give the dataset the folder name its in
+    self.dataname = 'mydata'
 
-    def _parse_data(self, tokenize, trainsplit, holdout) -> Dataset:
-        # @todo Implement the read logic here
-        pass
+  def _parse_data(self, tokenize, trainsplit, holdout) -> Dataset:
+    # @todo Implement the read logic here
+    pass
 
-    def tokenize(self):
-        # @todo Implement the tonkization logic here
-        pass
+  def tokenize(self):
+    # @todo Implement the tonkization logic here
+    pass
 ```
 
-Also add the path to the `datapaths` object in the config module.
+Also add the path to the `datapaths` dictionary in the config module.
 ```python
 datapaths = {
     "toy-ende": "data/toy-ende",
